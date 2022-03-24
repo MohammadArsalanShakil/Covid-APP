@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="00ac71b24d00470a84d85f154e82a53a" Name="Diagram1">
+        <EntityTypeShape EntityType="Database1Model.doctor" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Database1Model.Hospital" Width="1.5" PointX="2.625" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Database1Model.patient" Width="1.5" PointX="4.625" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Database1Model.recovered_patient" Width="1.5" PointX="2.625" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Database1Model.symptom" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <AssociationConnector Association="Database1Model.FK__Hospital__doctor__6E01572D" ManuallyRouted="false" />
+        <AssociationConnector Association="Database1Model.FK__Hospital__MR_no__5CD6CB2B" ManuallyRouted="false" />
+        <AssociationConnector Association="Database1Model.FK__recovered__MR_nu__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="Database1Model.FK__symptoms__MR_no__59FA5E80" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="doctor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Hospital">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Ward_no" Type="int" />
+          <Property Name="Bed_no" Type="int" />
+          <Property Name="doctor_id" Type="int" Nullable="false" />
+          <Property Name="MR_no" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="patient">
+          <Key>
+            <PropertyRef Name="MR_no" />
+          </Key>
+          <Property Name="MR_no" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="CNIC" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="pt_first_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pt_last_name" Type="varchar" MaxLength="50" />
+          <Property Name="father_or_husband" Type="varchar" MaxLength="50" />
+          <Property Name="DOB" Type="varchar" MaxLength="50" />
+          <Property Name="place_of_birth" Type="varchar" MaxLength="50" />
+          <Property Name="blood_type" Type="varchar" MaxLength="25" />
+          <Property Name="present_address" Type="varchar(max)" />
+          <Property Name="permanent_address" Type="varchar(max)" />
+          <Property Name="mobile_no" Type="varchar" MaxLength="30" />
+          <Property Name="landline_no" Type="varchar" MaxLength="25" />
+          <Property Name="email" Type="varchar" MaxLength="40" />
+          <Property Name="city" Type="varchar" MaxLength="30" />
+          <Property Name="gender" Type="varchar" MaxLength="20" />
+          <Property Name="image" Type="image" />
+          <Property Name="datetime" Type="datetime" />
+          <Property Name="test" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="symptom" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="recovered_patient">
+          <Key>
+            <PropertyRef Name="pd_no" />
+          </Key>
+          <Property Name="pd_no" Type="int" Nullable="false" />
+          <Property Name="date_of_discharge" Type="date" />
+          <Property Name="plasme_donor_name" Type="varchar" MaxLength="50" />
+          <Property Name="MR_number" Type="varchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="symptoms">
+          <Key>
+            <PropertyRef Name="MR_no" />
+          </Key>
+          <Property Name="MR_no" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="drycough" Type="varchar" MaxLength="50" />
+          <Property Name="headache" Type="varchar" MaxLength="50" />
+          <Property Name="fever" Type="varchar" MaxLength="50" />
+          <Property Name="vomiting" Type="varchar" MaxLength="50" />
+          <Property Name="chest_pain" Type="varchar" MaxLength="50" />
+          <Property Name="loss_of_smell" Type="varchar" MaxLength="50" />
+          <Property Name="shortness_of_breath" Type="varchar" MaxLength="50" />
+          <Property Name="loss_of_taste" Type="varchar" MaxLength="50" />
+          <Property Name="fatigue" Type="varchar" MaxLength="50" />
+          <Property Name="diarrhea" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Hospital__doctor__6E01572D">
+          <End Role="doctor" Type="Self.doctor" Multiplicity="1" />
+          <End Role="Hospital" Type="Self.Hospital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hospital">
+              <PropertyRef Name="doctor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Hospital__MR_no__5CD6CB2B">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="Hospital" Type="Self.Hospital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="MR_no" />
+            </Principal>
+            <Dependent Role="Hospital">
+              <PropertyRef Name="MR_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__recovered__MR_nu__571DF1D5">
+          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
+          <End Role="recovered_patient" Type="Self.recovered_patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="MR_no" />
+            </Principal>
+            <Dependent Role="recovered_patient">
+              <PropertyRef Name="MR_number" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__symptoms__MR_no__59FA5E80">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="symptoms" Type="Self.symptoms" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="MR_no" />
+            </Principal>
+            <Dependent Role="symptoms">
+              <PropertyRef Name="MR_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1ModelStoreContainer">
+          <EntitySet Name="doctor" EntityType="Self.doctor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hospital" EntityType="Self.Hospital" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="patient" EntityType="Self.patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="recovered_patient" EntityType="Self.recovered_patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="symptoms" EntityType="Self.symptoms" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Hospital__doctor__6E01572D" Association="Self.FK__Hospital__doctor__6E01572D">
+            <End Role="doctor" EntitySet="doctor" />
+            <End Role="Hospital" EntitySet="Hospital" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Hospital__MR_no__5CD6CB2B" Association="Self.FK__Hospital__MR_no__5CD6CB2B">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="Hospital" EntitySet="Hospital" />
+          </AssociationSet>
+          <AssociationSet Name="FK__recovered__MR_nu__571DF1D5" Association="Self.FK__recovered__MR_nu__571DF1D5">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="recovered_patient" EntitySet="recovered_patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__symptoms__MR_no__59FA5E80" Association="Self.FK__symptoms__MR_no__59FA5E80">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="symptoms" EntitySet="symptoms" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="doctor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Hospitals" Relationship="Self.FK__Hospital__doctor__6E01572D" FromRole="doctor" ToRole="Hospital" />
+        </EntityType>
+        <EntityType Name="Hospital">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Ward_no" Type="Int32" />
+          <Property Name="Bed_no" Type="Int32" />
+          <Property Name="doctor_id" Type="Int32" Nullable="false" />
+          <Property Name="MR_no" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="doctor" Relationship="Self.FK__Hospital__doctor__6E01572D" FromRole="Hospital" ToRole="doctor" />
+          <NavigationProperty Name="patient" Relationship="Self.FK__Hospital__MR_no__5CD6CB2B" FromRole="Hospital" ToRole="patient" />
+        </EntityType>
+        <EntityType Name="patient">
+          <Key>
+            <PropertyRef Name="MR_no" />
+          </Key>
+          <Property Name="MR_no" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CNIC" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pt_first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pt_last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="father_or_husband" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DOB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="place_of_birth" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="blood_type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="present_address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="permanent_address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="mobile_no" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="landline_no" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="datetime" Type="DateTime" Precision="3" />
+          <Property Name="test" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="symptom" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Hospitals" Relationship="Self.FK__Hospital__MR_no__5CD6CB2B" FromRole="patient" ToRole="Hospital" />
+          <NavigationProperty Name="recovered_patient" Relationship="Self.FK__recovered__MR_nu__571DF1D5" FromRole="patient" ToRole="recovered_patient" />
+          <NavigationProperty Name="symptom1" Relationship="Self.FK__symptoms__MR_no__59FA5E80" FromRole="patient" ToRole="symptoms" />
+        </EntityType>
+        <EntityType Name="recovered_patient">
+          <Key>
+            <PropertyRef Name="pd_no" />
+          </Key>
+          <Property Name="pd_no" Type="Int32" Nullable="false" />
+          <Property Name="date_of_discharge" Type="DateTime" Precision="0" />
+          <Property Name="plasme_donor_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MR_number" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="patient" Relationship="Self.FK__recovered__MR_nu__571DF1D5" FromRole="recovered_patient" ToRole="patient" />
+        </EntityType>
+        <EntityType Name="symptom">
+          <Key>
+            <PropertyRef Name="MR_no" />
+          </Key>
+          <Property Name="MR_no" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="drycough" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="headache" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fever" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="vomiting" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="chest_pain" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="loss_of_smell" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="shortness_of_breath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="loss_of_taste" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fatigue" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="diarrhea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="patient" Relationship="Self.FK__symptoms__MR_no__59FA5E80" FromRole="symptoms" ToRole="patient" />
+        </EntityType>
+        <Association Name="FK__Hospital__doctor__6E01572D">
+          <End Role="doctor" Type="Self.doctor" Multiplicity="1" />
+          <End Role="Hospital" Type="Self.Hospital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Hospital">
+              <PropertyRef Name="doctor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Hospital__MR_no__5CD6CB2B">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="Hospital" Type="Self.Hospital" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="MR_no" />
+            </Principal>
+            <Dependent Role="Hospital">
+              <PropertyRef Name="MR_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__recovered__MR_nu__571DF1D5">
+          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
+          <End Role="recovered_patient" Type="Self.recovered_patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="MR_no" />
+            </Principal>
+            <Dependent Role="recovered_patient">
+              <PropertyRef Name="MR_number" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__symptoms__MR_no__59FA5E80">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="symptoms" Type="Self.symptom" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="MR_no" />
+            </Principal>
+            <Dependent Role="symptoms">
+              <PropertyRef Name="MR_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1Entities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="doctors" EntityType="Self.doctor" />
+          <EntitySet Name="Hospitals" EntityType="Self.Hospital" />
+          <EntitySet Name="patients" EntityType="Self.patient" />
+          <EntitySet Name="recovered_patient" EntityType="Self.recovered_patient" />
+          <EntitySet Name="symptoms" EntityType="Self.symptom" />
+          <AssociationSet Name="FK__Hospital__doctor__6E01572D" Association="Self.FK__Hospital__doctor__6E01572D">
+            <End Role="doctor" EntitySet="doctors" />
+            <End Role="Hospital" EntitySet="Hospitals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Hospital__MR_no__5CD6CB2B" Association="Self.FK__Hospital__MR_no__5CD6CB2B">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="Hospital" EntitySet="Hospitals" />
+          </AssociationSet>
+          <AssociationSet Name="FK__recovered__MR_nu__571DF1D5" Association="Self.FK__recovered__MR_nu__571DF1D5">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="recovered_patient" EntitySet="recovered_patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__symptoms__MR_no__59FA5E80" Association="Self.FK__symptoms__MR_no__59FA5E80">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="symptoms" EntitySet="symptoms" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="Database1Entities2">
+          <EntitySetMapping Name="doctors">
+            <EntityTypeMapping TypeName="Database1Model.doctor">
+              <MappingFragment StoreEntitySet="doctor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hospitals">
+            <EntityTypeMapping TypeName="Database1Model.Hospital">
+              <MappingFragment StoreEntitySet="Hospital">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Ward_no" ColumnName="Ward_no" />
+                <ScalarProperty Name="Bed_no" ColumnName="Bed_no" />
+                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+                <ScalarProperty Name="MR_no" ColumnName="MR_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patients">
+            <EntityTypeMapping TypeName="Database1Model.patient">
+              <MappingFragment StoreEntitySet="patient">
+                <ScalarProperty Name="MR_no" ColumnName="MR_no" />
+                <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+                <ScalarProperty Name="pt_first_name" ColumnName="pt_first_name" />
+                <ScalarProperty Name="pt_last_name" ColumnName="pt_last_name" />
+                <ScalarProperty Name="father_or_husband" ColumnName="father_or_husband" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="place_of_birth" ColumnName="place_of_birth" />
+                <ScalarProperty Name="blood_type" ColumnName="blood_type" />
+                <ScalarProperty Name="present_address" ColumnName="present_address" />
+                <ScalarProperty Name="permanent_address" ColumnName="permanent_address" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="landline_no" ColumnName="landline_no" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="datetime" ColumnName="datetime" />
+                <ScalarProperty Name="test" ColumnName="test" />
+                <ScalarProperty Name="symptom" ColumnName="symptom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="recovered_patient">
+            <EntityTypeMapping TypeName="Database1Model.recovered_patient">
+              <MappingFragment StoreEntitySet="recovered_patient">
+                <ScalarProperty Name="pd_no" ColumnName="pd_no" />
+                <ScalarProperty Name="date_of_discharge" ColumnName="date_of_discharge" />
+                <ScalarProperty Name="plasme_donor_name" ColumnName="plasme_donor_name" />
+                <ScalarProperty Name="MR_number" ColumnName="MR_number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="symptoms">
+            <EntityTypeMapping TypeName="Database1Model.symptom">
+              <MappingFragment StoreEntitySet="symptoms">
+                <ScalarProperty Name="MR_no" ColumnName="MR_no" />
+                <ScalarProperty Name="drycough" ColumnName="drycough" />
+                <ScalarProperty Name="headache" ColumnName="headache" />
+                <ScalarProperty Name="fever" ColumnName="fever" />
+                <ScalarProperty Name="vomiting" ColumnName="vomiting" />
+                <ScalarProperty Name="chest_pain" ColumnName="chest_pain" />
+                <ScalarProperty Name="loss_of_smell" ColumnName="loss_of_smell" />
+                <ScalarProperty Name="shortness_of_breath" ColumnName="shortness_of_breath" />
+                <ScalarProperty Name="loss_of_taste" ColumnName="loss_of_taste" />
+                <ScalarProperty Name="fatigue" ColumnName="fatigue" />
+                <ScalarProperty Name="diarrhea" ColumnName="diarrhea" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
